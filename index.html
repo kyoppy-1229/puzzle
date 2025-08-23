@@ -111,7 +111,7 @@
                     <h3 class="text-2xl font-display text-rose-400 mb-2">更生施設の闇に迫った</h3>
                     <p class="text-gray-600 leading-relaxed">
                         <!-- ここに写真にまつわるコメントを記入 -->
-                        とても奇妙で楽しい謎解きだった、今後の展開も気になるけど実際のイベントも行ってみたい。。。
+                        とても奇妙で楽しい<span id="memory-trigger" class="cursor-pointer decoration-dotted hover:text-rose-600 transition-colors">謎解き</span>だった、今後の展開も気になるけど実際のイベントも行ってみたい。。。
                     </p>
                 </div>
             </div>
@@ -394,7 +394,22 @@
             <p class="text-lg text-rose-400 font-display">これからも一緒に素敵な思い出を作ろうね</p>
             <p class="mt-4 text-gray-400">With all my love.</p>
         </footer>
-
+    </div>
+    <!-- Modal Section (New) -->
+    <div id="memory-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[60] opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl p-4 max-w-xl w-full relative transform scale-95 transition-all duration-300">
+            <button id="close-modal" class="absolute -top-3 -right-3 bg-white rounded-full p-2 text-gray-700 hover:bg-rose-100 hover:scale-110 transition-all z-10 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <!-- ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
+            <!-- ここにモーダルで表示したい未来の写真や特別な写真を入れてください -->
+            <img src="photo/謎解き.png" alt="未来の思い出" class="w-full h-auto object-cover rounded-xl">
+            <!-- ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
+            <p class="text-center mt-4 text-gray-600 font-display">すまん、まだ完成してないので、あらすじだけ。</p>
+            <p class="text-center mt-4 text-gray-600 font-display">深夜、かつての同級生から届いた一通のDM。閉校の年に生徒が作った横スクロールゲーム「SIDE-B」の“復刻版”が見つかったという。主人公は、夕暮れの堤防、止まった駅、雨の校庭――三つの風景を歩きながら、画面の端々や古い掲示板に散らばった手がかりを拾い集めていく。やがて噂は都市伝説の域を越え、現実の記憶と絡み合いはじめる。刻む音が近づく中、過去に置き忘れた真実へ、自分の判断だけが道を開く。</p>
+        </div>
     </div>
 
     <!-- JavaScript for animations -->
@@ -440,6 +455,38 @@
         faders.forEach(fader => {
             appearOnScroll.observe(fader);
         });
+
+        // --- Modal Logic (New) ---
+        const memoryTrigger = document.getElementById('memory-trigger');
+        const memoryModal = document.getElementById('memory-modal');
+        const closeModal = document.getElementById('close-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        if (memoryTrigger && memoryModal && closeModal && modalContent) {
+            const showModal = () => {
+                memoryModal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+            };
+
+            const hideModal = () => {
+                modalContent.classList.add('scale-95');
+                memoryModal.classList.add('opacity-0');
+                // Wait for transition to finish before setting pointer-events to none
+                setTimeout(() => {
+                    memoryModal.classList.add('pointer-events-none');
+                }, 300);
+            };
+
+            memoryTrigger.addEventListener('click', showModal);
+            closeModal.addEventListener('click', hideModal);
+            
+            // Hide modal if user clicks on the background overlay
+            memoryModal.addEventListener('click', (e) => {
+                if (e.target === memoryModal) {
+                    hideModal();
+                }
+            });
+        }
     </script>
 </body>
 </html>
